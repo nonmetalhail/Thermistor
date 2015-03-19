@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Thermistor Calculator</title>
+    <link href='http://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href="thermistor.css" rel="stylesheet"/>    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="thermistor.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-32910075-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <section class = "formContainer">
+      <h4>Steinhart-Hart Coefficients Calculator</h4>
+      <form id = "calculateCoefficients">
+        <div>
+          <label for="T1">T1</label>
+          <input type="number" name="T1" id="T1" placeholder="T1" value=""/>
+          <label for="R1">R1</label>
+          <input type="number" name="R1" id="R1" placeholder="R1" value=""/>
+        </div>
+        <div>
+          <label for="T2">T2</label>
+          <input type="number" name="T2" id="T2" placeholder="T2" value=""/>
+          <label for="R1">R2</label>
+          <input type="number" name="R2" id="R2" placeholder="R2" value=""/>
+        </div>
+        <div>
+          <label for="T3">T3</label>
+          <input type="number" name="T3" id="T3" placeholder="T3" value=""/>
+          <label for="R1">R3</label>
+          <input type="number" name="R3" id="R3" placeholder="R3" value=""/>
+        </div>
+        <br />
+        <div>
+          <label for="units">Units: </label>
+          <input type="radio" name="units" id="dC" checked="checked"/>Celcius
+          <input type="radio" name="units" id="dF"/>Fahrenheit
+        </div>
+        <br />
+        <hr>
+        <br />
+        <div>
+          <label for="A">A</label>
+          <input disabled class="output" name="A" id="A" placeholder="A" value=""/>
+        </div>
+        <div>
+          <label for="B">B</label>
+          <input disabled class="output" name="B" id="B" placeholder="B" value=""/>
+        </div>
+        <div>
+          <label for="C">C</label>
+          <input disabled class="output" name="C" id="C" placeholder="C" value=""/>
+        </div>
+
+        <br />
+        <div>
+          <button type="submit" id = "calcABC">Submit</button>
+        </div>
+      </form>
+      <h5>1/T= A + B*ln(R) + C*ln(R)^3</h5>
+    </section>
+
+    <section class = "formContainer">
+      <h4>Steinhart-Hart Temperature Calculator</h4>
+      <h5>1/T = A + B*ln(R) + C*ln(R)^3</h5>
+      <form id = "calculateTemperature">
+        <div>
+          <label for="tA">A</label>
+          <input type="number" name="tA" id="tA" placeholder="A" value=""/>
+        </div>
+        <div>
+          <label for="tB">B</label>
+          <input type="number" name="tB" id="tB" placeholder="B" value=""/>
+        </div>
+        <div>
+          <label for="tC">C</label>
+          <input type="number" name="tC" id="tC" placeholder="C" value=""/>
+        </div>
+        <div>
+          <label for="tR">R</label>
+          <input type="number" name="tR" id="tR" placeholder="R" value=""/>
+          <button type="submit" class = "import" id = "tImport">Import A, B, C From Part 1</button>
+        </div>
+        <br />
+        <hr>
+        <br />
+        <div>
+          <label for="tT">T</label>
+          <input disabled class="output" type="number" name="tT" id="tT" placeholder="T" value=""/>
+        </div>
+        <br />
+        <div>
+          <label for="tunits">Units: </label>
+          <input type="radio" name="tunits" id="tdC" checked="checked"/>Celcius
+          <input type="radio" name="tunits" id="tdF"/>Fahrenheit
+        </div>
+        <br />
+        <div>
+          <button type="submit" id = "calcT">Submit</button>
+        </div>
+      </form>
+    </section>
+
+    <section class = "formContainer">
+      <h4>Steinhart-Hart Resistance Calculator</h4>
+      <h5>R = exp( (x-y/2)^1/3 - (x+y/2)^1/3 )
+      <br /> where y = (A - (1/T))/C and x = ( (B/3C)^3 + (y^2)/4 )^1/2</h5>
+      <form id = "calculateResistance">
+        <div>
+          <label for="rA">A</label>
+          <input type="number" name="rA" id="rA" placeholder="A" value=""/>
+        </div>
+        <div>
+          <label for="rB">B</label>
+          <input type="number" name="rB" id="rB" placeholder="B" value=""/>
+        </div>
+        <div>
+          <label for="rC">C</label>
+          <input type="number" name="rC" id="rC" placeholder="C" value=""/>
+        </div>
+        <div>
+          <label for="rT">T</label>
+          <input type="number" name="rT" id="rT" placeholder="T" value=""/>
+          <button type="submit" class = "import"  id = "rImport">Import A, B, C From Part 1</button>
+        </div>
+        <br />
+        <div>
+          <label for="runits">Units: </label>
+          <input type="radio" name="runits" id="rdC" checked="checked"/>Celcius
+          <input type="radio" name="runits" id="rdF"/>Fahrenheit
+        </div>
+        <br />
+        <hr>
+        <br />
+        <div>
+          <label for="rR">R</label>
+          <input disabled class="output" type="number" name="rR" id="rR" placeholder="R" value=""/>
+        </div>
+        <br />
+        <div>
+          <button type="submit" id = "calcR">Submit</button>
+        </div>
+      </form>
+    </section>
+
+    <section class = "formContainer">
+      <h4>Beta Value Calculator</h4>
+      <h5>Beta = ln(R1/R0)/(1/T1 - 1/T0) </h5>
+      <form id = "calculateBeta">
+        <div>
+          <label for="bT1">T1</label>
+          <input type="number" name="bT1" id="bT1" placeholder="T1" value=""/>
+          <label for="bR1">R1</label>
+          <input type="number" name="bR1" id="bR1" placeholder="R1" value=""/>
+        </div>
+        <div>
+          <label for="bT2">T2</label>
+          <input type="number" name="bT2" id="bT2" placeholder="T2" value=""/>
+          <label for="bR1">R2</label>
+          <input type="number" name="bR2" id="bR2" placeholder="R2" value=""/>
+        </div>
+        <br />
+        <div>
+          <label for="bunits">Units: </label>
+          <input type="radio" name="bunits" id="bdC" checked="checked"/>Celcius
+          <input type="radio" name="bunits" id="bdF"/>Fahrenheit
+        </div>
+        <br />
+        <hr>
+        <br />
+        <div>
+          <label for="Beta">Beta</label>
+          <input disabled class="output" name="Beta" id="Beta" placeholder="Beta" value=""/>
+        </div>
+        <br />
+        <div>
+          <button type="submit" id = "calcBeta">Submit</button>
+        </div>
+      </form>
+    </section>
+
+    <section class = "formContainer">
+      <h4>Temperature Calculator from Beta</h4>
+      <h5>1/T = 1/T0 + ln(R/R0)/Beta </h5>
+      <form id = "calculateTB">
+        <div>
+          <label for="btBeta">Beta</label>
+          <input type="number" name="btBeta" id="btBeta" placeholder="Beta" value=""/>
+        </div>
+        <div>
+          <label for="btT0">T0</label>
+          <input type="number" name="btT0" id="btT0" placeholder="T0" value=""/>
+          <label for="btR0">R0</label>
+          <input type="number" name="btR0" id="btR0" placeholder="R0" value=""/>
+        </div>
+        <div>
+          <label for="btR">R</label>
+          <input type="number" name="btR" id="btR" placeholder="R" value=""/>
+        </div>
+        <br />
+        <div>
+          <label for="btunits">Units: </label>
+          <input type="radio" name="btunits" id="btdC" checked="checked"/>Celcius
+          <input type="radio" name="btunits" id="btdF"/>Fahrenheit
+        </div>
+        <br />
+        <hr>
+        <br />
+        <div>
+          <label for="btT">T</label>
+          <input disabled class="output" name="btT" id="btT" placeholder="T" value=""/>
+        </div>
+        <br />
+        <div>
+          <button type="submit" id = "calcTB">Submit</button>
+        </div>
+      </form>
+    </section>
+
+    <section class = "formContainer">
+      <h4>Resistance Calculator from Beta</h4>
+      <h5>R = R0 * exp(Beta(1/T-1/T0)) </h5>
+      <form id = "calculateRB">
+        <div>
+          <label for="brBeta">Beta</label>
+          <input type="number" name="brBeta" id="brBeta" placeholder="Beta" value=""/>
+        </div>
+        <div>
+          <label for="brT0">T0</label>
+          <input type="number" name="brT0" id="brT0" placeholder="T0" value=""/>
+          <label for="brR0">R0</label>
+          <input type="number" name="brR0" id="brR0" placeholder="R0" value=""/>
+        </div>
+        <div>
+          <label for="brT">T</label>
+          <input type="number" name="brT" id="brT" placeholder="R" value=""/>
+        </div>
+        <br />
+        <div>
+          <label for="brunits">Units: </label>
+          <input type="radio" name="brunits" id="brdC" checked="checked"/>Celcius
+          <input type="radio" name="brunits" id="brdF"/>Fahrenheit
+        </div>
+        <br />
+        <hr>
+        <br />
+        <div>
+          <label for="brR">R</label>
+          <input disabled class="output" name="brR" id="brR" placeholder="R" value=""/>
+        </div>
+        <br />
+        <div>
+          <button type="submit" id = "calcRB">Submit</button>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      <div>
+        <a href="http://en.wikipedia.org/wiki/Steinhart%E2%80%93Hart_equation" target="_blank">Wikipedia Steinhart-Hart Equation</a>
+      </div>
+      <div>
+        <a href="http://en.wikipedia.org/wiki/Thermistor" target="_blank">Wikipedia Thermistor</a>
+      </div>
+    </footer>
+  </body>
+</html>
